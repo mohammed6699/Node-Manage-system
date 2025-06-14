@@ -4,7 +4,6 @@ import User from '../models/user.model.js';
 import {SUCCESS, ERROR, FAIL} from '../utlits/httpStatus.js';
 import { compareSync } from "bcryptjs";
 import jwt from "jsonwebtoken";
-import Task from "../models/task.model.js"
 // get all users
 const getAllUsers = async (req, res) => {
   // pagination
