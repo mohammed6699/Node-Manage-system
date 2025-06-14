@@ -67,7 +67,7 @@ const loginUser = async(req, res) => {
 }
 //update user
 const updateUser = async (req, res) => {
-  if(req.decodeToken._id !== req.params._id){
+  if(req.decodeToken._id !== req.params.id){
     return res.status(401).json({status:ERROR, data:{message: "Not allowed update"}});
   };
   try {
