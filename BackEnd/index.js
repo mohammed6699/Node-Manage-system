@@ -37,3 +37,4 @@ app.use("/api/user", userRouter);
 app.listen(port, () => {
     console.log(`App is listing on port ${port}`);
 })
+export default app;

@@ -3,7 +3,7 @@ import {
   deleteTask,
   updateTask,
   addTask,
-  getAllTasks
+  getAllTAsk
 } from "../controllers/taskController.js";
 import getTaskBySearch from "../controllers/searchTask.js";
 import getFilterTask from "../controllers/filterTask.js";
