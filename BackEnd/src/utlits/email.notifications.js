@@ -26,11 +26,11 @@ const sendReminderEmail =async (task)=>{
         <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
             <tr>
                 <td style="padding: 8px; font-weight: bold; color: #555;">📌 Title:</td>
-                <td style="padding: 8px; color: #333;">${task.title}</td>
+                <td style="padding: 8px; color: #333;">${task.Title}</td>
         </tr>
         <tr style="background-color: #f1f1f1;">
             <td style="padding: 8px; font-weight: bold; color: #555;">📝 Description:</td>
-            <td style="padding: 8px; color: #333;">${task.description}</td>
+            <td style="padding: 8px; color: #333;">${task.Description}</td>
         </tr>
         <tr>
             <td style="padding: 8px; font-weight: bold; color: #555;">📂 Category:</td>
