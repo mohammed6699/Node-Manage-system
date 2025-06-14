@@ -17,13 +17,13 @@ webpush.setVapidDetails(
  */
 const sendWebPushNotification = async (subscription, task) => {
     const payload = JSON.stringify({
-        title: `Reminder: ${task.title}`,
-        body: `📝 ${task.description}`,
+        title: `Reminder: ${task.Title}`,
+        body: `📝 ${task.Description}`,
     });
 
     try {
         await webpush.sendNotification(subscription, payload);
-        console.log(" Notification sent for task:", task.title);
+        console.log(" Notification sent for task:", task.Title);
     } catch (error) {
         console.error(" Failed to send notification:", error);
     }

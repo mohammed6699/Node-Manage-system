@@ -1,7 +1,7 @@
 
-import { ERROR, SUCCESS } from "../utils/http-status.js";
-import TaskModel from "../models/taskModel.js";
-import User from "../models/userModels.js";
+import { ERROR, SUCCESS } from "../utlits/httpStatus.js";
+import TaskModel from "../models/task.model.js";
+import User from "../models/user.model.js";
 import schedularReminder from "../utlits/reminder.scheduler.js";
 
 

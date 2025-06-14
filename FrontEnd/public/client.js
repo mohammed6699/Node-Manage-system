@@ -56,7 +56,7 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
 
       console.log("User is subscribed:", subscription);
 
-      await fetch("http://localhost:3001/api/save-subscription", {
+      await fetch("http://localhost:5000/api/save-subscription", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

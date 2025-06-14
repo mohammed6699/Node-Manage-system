@@ -13,7 +13,7 @@ const sendReminderEmail =async (task)=>{
     const mailOptions ={
     from: "mena.maherqw@gmail.com",
     to: "menamosadef5@gmail.com",
-    subject: `Reminder: ${task.title}`,
+    subject: `Reminder: ${task.Title}`,
     html: `
        <div style="max-width: 600px; margin: auto; font-family: 'Segoe UI', sans-serif; background-color: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0;">
         <h2 style="text-align: center; color: #4A90E2;">📝 Task Reminder</h2>
@@ -37,8 +37,8 @@ const sendReminderEmail =async (task)=>{
             <td style="padding: 8px; color: #333;">${task.category}</td>
         </tr>
         <tr style="background-color: #f1f1f1;">
-            <td style="padding: 8px; font-weight: bold; color: #555;">⚡ Priority:</td>
-            <td style="padding: 8px; color: #e74c3c; font-weight: bold;">${task.priority}</td>
+            <td style="padding: 8px; font-weight: bold; color: #555;">⚡ progress:</td>
+            <td style="padding: 8px; color: #e74c3c; font-weight: bold;">${task.progress}</td>
         </tr>
         <tr>
             <td style="padding: 8px; font-weight: bold; color: #555;">⏰ Due Date:</td>
