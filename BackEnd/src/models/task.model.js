@@ -32,6 +32,11 @@ const taskModel = new Schema({
     type: String,
     maxlength: 50,
   },
+  reminderTime:{
+        type:Date,
+        default:null,
+        required:false,
+    },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
