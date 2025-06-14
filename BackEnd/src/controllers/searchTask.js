@@ -1,5 +1,5 @@
-import { SUCCESS, ERROR } from "../utils/http-status.js";
-import taskModel from "../models/taskModel.js";
+import { SUCCESS, ERROR } from "../utlits/httpStatus.js";
+import taskModel from "../models/user.model.js";
 const getTaskBySearch = async(req, res) => {
     const searchQuery = req.query;
     const Category = searchQuery.category;

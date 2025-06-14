@@ -5,14 +5,14 @@ import {
   getUserById,
   updateUser,
   deleteUser,
-} from "../controllers/userControllers.js";
+} from "../controllers/userController.js";
 
 import express from "express";
 import verifyToken from "../middleware/verifyToken.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/", verifyToken,getAllUsers);
+userRouter.get("/",getAllUsers);
 userRouter.post("/register", registerUser);
 userRouter.post("/login",loginUser);
 userRouter.get("/:id", verifyToken,getUserById);

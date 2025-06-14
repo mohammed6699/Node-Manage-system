@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import JWT from 'jsonwebtoken'
-import { ERROR } from "../utils/http-status.js";
+import { ERROR } from "../utlits/httpStatus.js";
 
 const verifyToken = (req, res, next) => {
     const token = req.headers["Authorization"] || req.headers["authorization"]

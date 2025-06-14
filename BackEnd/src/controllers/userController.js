@@ -1,10 +1,10 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import User from '../models/user.model.js';
-import {SUCCESS, ERROR, FAIL} from '../utlits/http-status.js';
+import {SUCCESS, ERROR, FAIL} from '../utlits/httpStatus.js';
 import { compareSync } from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import Task from "../models/task.model.js"
 // get all users
 const getAllUsers = async (req, res) => {
   // pagination
@@ -56,7 +56,7 @@ const loginUser = async(req, res) => {
   if(!user){
     res.status(401).json({status: FAIL, data:{message: "Authentication Errors"}});
   }
-  const enteredPass = compareSync(ppassword, user.password);
+  const enteredPass = compareSync(password, user.password);
   if(!enteredPass){
     res.status(401).json({status: FAIL, data:{message: "Authentication Errors"}});
   }
@@ -66,31 +66,34 @@ const loginUser = async(req, res) => {
   res.status(201).json({status: SUCCESS, data: { token }});
 }
 //update user
+
 const updateUser = async (req, res) => {
   if(req.decodeToken._id !== req.params.id){
-    return res.status(401).json({status:ERROR, data:{message: "Not allowed update"}});
-  };
-  try {
-    const userId = req.params.id
-    const updatedUser = await User.findByIdAndUpdate(userId, {$set: {...req.body}, new: true}).select('-password');
-    if(!updatedUser){
-      return res.status(404).json({status: ERROR, data:{message: "User Not Found"}});
-    }
-    res.status(201).json({status: SUCCESS, data:{updateUser}});
-  } catch (error) {
-    res.status(500).json({status: ERROR, data: {message: error}});
+    return res.status(400).json({ status: ERROR, message: "Not allowed" });
   }
-}
+  try {
+    const userId = req.params.id;
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { ...req.body } },{ new: true }).select("-password");
+
+    if (!updatedUser) {
+      return res.status(404).json({status: ERROR,message: "User not found",});}
+    res.status(200).json({status: SUCCESS,data: { updatedUser },});
+  }catch (error) {
+    res.status(500).json({status: ERROR,message: "Server error",error: error.message});
+  }
+};
 // delete user
 const deleteUser = async(req, res) =>{
-  if(req.decodeToken._id !== req.params._id){
-    return res.status(401).json({status:ERROR, data:{message: "Not allowed update"}});
+ if(req.decodeToken._id == req.params._id){
+    return res.status(400).json({ status: ERROR, message: "Not allowed" });
   }
   try {
     const userId = req.params.id
     const deletedUser = await User.findByIdAndDelete(userId)
     if(!deletedUser){
-      return res.status(404).json({status: ERROR, data:{message: "User Not Found"}});
+      return res.status(404).json({status: ERROR, message: "User Not Found"});
     }
     res.status(201).json({status: SUCCESS, data: {message: "User deleted successfully"}})
   } catch (err) {
