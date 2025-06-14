@@ -20,6 +20,8 @@ app.use(express.json())
 app.use("/api/task", taskRouter);
 app.use("/api/task/search", getTaskBySearch);
 app.use("/api/task/filter", getFilterTask)
+// reminder routes
+
 // user routes
 app.use("/api/user", userRouter);
 app.listen(port, () => {
