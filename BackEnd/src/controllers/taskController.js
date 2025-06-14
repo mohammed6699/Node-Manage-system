@@ -38,14 +38,14 @@ const addTask = async (req, res) => {
   }
 
   try {
-    const { Title, Description, Due_Date, category, periority ,reminderTime } = req.body;
+    const { Title, Description, Due_Date, category, priority ,reminderTime } = req.body;
 
     const newTask = await TaskModel.create({
       Title,
       Description,
       Due_Date,
       category,
-      periority,
+      priority,
       reminderTime,
       user: req.decodeToken._id,
       progress
