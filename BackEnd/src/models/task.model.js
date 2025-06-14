@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema } from "mongoose";
 import Priority from  "../utlits/priority.js";   
 import Progress from "../utlits/progress.js";   
 import mongoose from "mongoose";

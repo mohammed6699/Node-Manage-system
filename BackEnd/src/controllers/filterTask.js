@@ -1,5 +1,5 @@
 import { ERROR, SUCCESS } from "../utlits/httpStatus.js";
-import taskModel from "../models/user.model.js";
+import taskModel from "../models/task.model.js";
 const getFilterTask = async(req, res) => {
     const query = req.query;
     const periority = query.periority;
