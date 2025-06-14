@@ -1,7 +1,7 @@
 self.addEventListener("push", (event) => {
   try {
     if (!event.data) {
-      console.error(" No data received in push event.");
+      console.error("No data received in push event.");
       return;
     }
 
@@ -40,5 +40,22 @@ self.addEventListener("push", (event) => {
     );
   } catch (err) {
     console.error("Error handling push event:", err);
+  }
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close(); // اغلق الإشعار بعد التفاعل
+
+  const action = event.action;
+
+  if (action === "confirm") {
+    console.log("User clicked Confirm");
+    // clients.openWindow('https://example.com/confirm');
+  } else if (action === "cancel") {
+    console.log("User clicked Cancel");
+    // 
+  } else {
+    console.log("Notification clicked");
+    // event.waitUntil(clients.openWindow('/'));
   }
 });
