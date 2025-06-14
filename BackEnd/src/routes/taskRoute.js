@@ -3,12 +3,12 @@ import {
   deleteTask,
   updateTask,
   addTask,
-  getAllTAsk
+  getAllTasks
 } from "../controllers/taskController.js";
 import getTaskBySearch from "../controllers/searchTask.js";
 import getFilterTask from "../controllers/filterTask.js";
 import allowedTo from "../middleware/allowedTo.js";
-import userRole from "../utils/UserRole.js";
+import userRole from "../utlits/UeerRole.js";
 
 import express from "express";
 
