@@ -4,11 +4,11 @@ import {
   updateTask,
   addTask,
   getAllTAsk
-} from "../controllers/taskControllers.js";
-import getTaskBySearch from "../controllers/searchTask.js"
-import getFilterTask from "../controllers/filterTask.js"
+} from "../controllers/taskController.js";
+import getTaskBySearch from "../controllers/searchTask.js";
+import getFilterTask from "../controllers/filterTask.js";
 import allowedTo from "../middleware/allowedTo.js";
-import userRole from "../utils/UeerRole.js";
+import userRole from "../utils/UserRole.js";
 import express from "express";
 
 const taskRouter = express.Router();
