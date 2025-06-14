@@ -1,4 +1,4 @@
-import TaskModel from "../models/user.model.js";
+import TaskModel from "../models/task.model.js";
 import User from "../models/user.model.js";
 import { ERROR, SUCCESS } from "../utlits/httpStatus.js";
 
@@ -8,11 +8,10 @@ const getAllTasks = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-
     const allTasks = await TaskModel.find({ user: req.decodeToken._id })
       .skip(skip)
       .limit(limit);
-
+      
     const count = await TaskModel.countDocuments({ user: req.decodeToken._id });
 
     res.status(200).json({
@@ -36,15 +35,16 @@ const addTask = async (req, res) => {
   }
 
   try {
-    const { Title, Description, Due_Date, category, periority } = req.body;
+    const { Title, Description, Due_Date, category, priority, progress } = req.body;
 
     const newTask = await TaskModel.create({
       Title,
       Description,
       Due_Date,
       category,
-      periority,
+      priority,
       user: req.decodeToken._id,
+      progress
     });
 
     await User.findByIdAndUpdate(
