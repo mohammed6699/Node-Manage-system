@@ -1,9 +1,12 @@
-import TaskModel from "../models/task.model.js";
-import User from "../models/user.model.js";
-import { ERROR, SUCCESS } from "../utlits/httpStatus.js";
+
+import { ERROR, SUCCESS } from "../utils/http-status.js";
+import TaskModel from "../models/taskModel.js";
+import User from "../models/userModels.js";
+import schedularReminder from "../utlits/reminder.scheduler.js";
+
 
 // Get all tasks ( pagination + filtering by user)
-const getAllTasks = async (req, res) => {
+const getAllTAsk = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -35,18 +38,19 @@ const addTask = async (req, res) => {
   }
 
   try {
-    const { Title, Description, Due_Date, category, priority, progress } = req.body;
+    const { Title, Description, Due_Date, category, periority ,reminderTime } = req.body;
 
     const newTask = await TaskModel.create({
       Title,
       Description,
       Due_Date,
       category,
-      priority,
+      periority,
+      reminderTime,
       user: req.decodeToken._id,
       progress
     });
-
+    schedularReminder(newTask);
     await User.findByIdAndUpdate(
       req.decodeToken._id,
       { $push: { tasks: newTask._id } },
@@ -97,4 +101,4 @@ const deleteTask = async (req, res) => {
   }
 };
 
-export { getAllTasks, addTask, updateTask, deleteTask };
+export { getAllTAsk, addTask, updateTask, deleteTask };

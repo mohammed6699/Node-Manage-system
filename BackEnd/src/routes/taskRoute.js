@@ -1,14 +1,10 @@
 import verifyToken from "../middleware/verifyToken.js";
-import {
-  deleteTask,
-  updateTask,
-  addTask,
-  getAllTasks
-} from "../controllers/taskController.js";
-import getTaskBySearch from "../controllers/searchTask.js"
-import getFilterTask from "../controllers/filterTask.js"
+import {deleteTask,updateTask,addTask,getAllTAsk} from "../controllers/taskController.js";
+import getTaskBySearch from "../controllers/searchTask.js";
+import getFilterTask from "../controllers/filterTask.js";
 import allowedTo from "../middleware/allowedTo.js";
-import userRole from "../utlits/UeerRole.js";
+import userRole from "../utlits/UeerRole.js"
+
 import express from "express";
 
 const taskRouter = express.Router();
@@ -16,7 +12,7 @@ const taskRouter = express.Router();
 // Main tasks routes
 taskRouter
   .route("/")
-  .get(verifyToken, getAllTasks)
+  .get(verifyToken, getAllTAsk)
   .post(verifyToken, allowedTo(userRole.USER), addTask);
 
 taskRouter
