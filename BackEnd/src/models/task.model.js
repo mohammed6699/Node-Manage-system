@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
-import Priority from "../utils/priority.js";   
-import Progress from "../utils/progress.js";   
+import Priority from  "../utlits/priority.js";   
+import Progress from "../utlits/progress.js";   
 import mongoose from "mongoose";
 
 const taskModel = new Schema({
@@ -51,4 +51,4 @@ const taskModel = new Schema({
   },
 });
 
-export default model("Task", taskModel);
+export default mongoose.model("Task", taskModel);

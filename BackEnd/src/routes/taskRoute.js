@@ -9,6 +9,7 @@ import getTaskBySearch from "../controllers/searchTask.js";
 import getFilterTask from "../controllers/filterTask.js";
 import allowedTo from "../middleware/allowedTo.js";
 import userRole from "../utils/UserRole.js";
+
 import express from "express";
 
 const taskRouter = express.Router();
@@ -16,7 +17,7 @@ const taskRouter = express.Router();
 // Main tasks routes
 taskRouter
   .route("/")
-  .get(getAllTAsk)
+  .get(getAllTasks)
   .post(verifyToken, allowedTo(userRole.USER), addTask);
 
 taskRouter
