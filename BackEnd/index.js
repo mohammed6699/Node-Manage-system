@@ -1,10 +1,12 @@
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";    
 dotenv.config();
 const port = process.env.PORT;
 const URL = process.env.MONGO_CONNECTION;
 const app = express();
+app.use(cors());
 // taskRoutes imports
 import taskRouter from "./src/routes/taskRoute.js";
 
