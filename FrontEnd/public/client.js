@@ -41,3 +41,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+
+// Service Workers و Push Notifications
+if ("serviceWorker" in navigator && "PushManager" in window) {
+  navigator.serviceWorker.register("./sw.js") // service worker
+    .then(async (registration) => {
+      console.log("Service Worker registered.");
+
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+
+      console.log("User is subscribed:", subscription);
+
+      await fetch("http://localhost:3001/api/save-subscription", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(subscription)
+      });
+
+      console.log("Subscription sent to server");
+    })
+    .catch(error => {
+      console.error(" Service Worker registration or push subscription failed:", error);
+    });
+} else {
+  console.warn(" Push messaging is not supported");
+}
