@@ -21,6 +21,7 @@ const taskModel = new Schema({
   priority: {
     type: String,
     enum: [Priority.HIGH, Priority.MEDIUM, Priority.LOW],
+    required: true,
   },
   progress: {
     type: String,
