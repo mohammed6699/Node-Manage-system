@@ -5,11 +5,7 @@ import {
   addTask,
   getAllTAsk
 } from "../controllers/taskControllers.js";
-import {
-  getTaskByDescription,
-  getTaskByTitle,
-  getTaskbyCategory,
-} from "../controllers/searchTask.js";
+import getTaskBySearch from "../controllers/searchTask.js"
 import getFilterTask from "../controllers/filterTask.js"
 import allowedTo from "../middleware/allowedTo.js";
 import userRole from "../utils/UeerRole.js";
@@ -29,10 +25,7 @@ taskRouter
   .delete(verifyToken, allowedTo(userRole.USER), deleteTask);
 
 // Search routes with clear paths
-taskRouter.get("/search/title/:title", getTaskByTitle);
-taskRouter.get("/search/category/:category", getTaskbyCategory);
-taskRouter.get("/search/description/:description", getTaskByDescription);
-
+taskRouter.route('/search').get(getTaskBySearch);
 // Filter route
 taskRouter.get("/filter", getFilterTask);
 
