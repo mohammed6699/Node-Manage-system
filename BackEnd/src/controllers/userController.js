@@ -1,152 +1,107 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import User from "../models/userModels.js";
-import { ERROR, SUCCESS, FAIL } from "../utils/http-status.js";
+import dotenv from 'dotenv'
+dotenv.config()
+import User from '../models/user.model.js';
+import {SUCCESS, ERROR, FAIL} from '../utlits/http-status.js';
 import { compareSync } from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-// Get all users with pagination
+// get all users
 const getAllUsers = async (req, res) => {
+  // pagination
+  const query = req.query;
+  const page = query.page;
+  const limit = query.limit;
+  const end = (page - 1) * limit;
+  const user = await User.find().populate("tasks").limit(limit).skip(end);
+  if(!user){
+    res.status(401).json({status: FAIL, data:{message: "This User is not exists"}});
+  };
+  res.status(201).json({status: SUCCESS, data: {user}});
+};
+// get userbyid
+const getUserById = async(req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const skip = (page - 1) * limit;
-
-    const users = await User.find()
-      .populate("tasks")
-      .limit(Number(limit))
-      .skip(Number(skip))
-      .select("-password");
-
-    res.status(200).json({ status: SUCCESS, data: users });
-  } catch (error) {
-    res.status(500).json({ status: ERROR, message: error.message });
+    const userId = req.params.id;
+    const user = await User.findById(userId).select("-password").populate("tasks")
+    if(!user){
+      res.status(404).json({status: FAIL, data: {message: "User is not found"}})
+    }
+    res.status(202).json({status: SUCCESS, data: {user}})
+  } catch (err) {
+    res.status(500).json({status: ERROR, data: {message: err}})
   }
 };
-
-// Get user by ID
-const getUserById = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id)
-      .populate("tasks")
-      .select("-password");
-
-    if (!user) {
-      return res.status(404).json({ status: ERROR, message: "User not found" });
-    }
-
-    res.status(200).json({ status: SUCCESS, data: user });
-  } catch (error) {
-    res.status(500).json({ status: ERROR, message: error.message });
+// register new user
+const registerUser = async(req, res) => {
+  const {UserName, FirstName, LastName, email, password } = req.body
+  const user = await User.findOne({UserName})
+  // check if the user exists or not 
+  if(user){
+    res.status(401).json({status:FAIL, data: {message: "Authentication Error"}});
   }
+  const newUser = new User({
+    UserName,
+    FirstName,
+    LastName,
+    email,
+    password
+  });
+  await User.create(newUser);
+  res.status(201).json({status: SUCCESS, data:{newUser}});
 };
-
-// Register a new user
-const registerUser = async (req, res) => {
-  try {
-    const { UserName, FirstName, LastName, email, password } = req.body;
-
-    const existingUser = await User.findOne({ UserName });
-    if (existingUser) {
-      return res.status(400).json({
-        status: FAIL,
-        message: "This username already exists",
-      });
-    }
-
-    const newUser = await User.create({
-      UserName,
-      FirstName,
-      LastName,
-      email,
-      password,
-    });
-
-    res.status(201).json({ status: SUCCESS, data: newUser });
-  } catch (error) {
-    res.status(500).json({ status: ERROR, message: error.message });
+// login user (Authentication)
+const loginUser = async(req, res) => {
+  const {UserName, password} = req.body;
+  const user = await User.findOne({UserName});
+  if(!user){
+    res.status(401).json({status: FAIL, data:{message: "Authentication Errors"}});
   }
-};
-
-// Login user and generate JWT
-const loginUser = async (req, res) => {
-  try {
-    const { UserName, password } = req.body;
-
-    const user = await User.findOne({ UserName });
-    if (!user) {
-      return res.status(401).json({
-        status: ERROR,
-        message: "User not found",
-      });
-    }
-
-    const isMatch = compareSync(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({
-        status: ERROR,
-        message: "Invalid credentials",
-      });
-    }
-
-    const token = jwt.sign(
-      { email: user.email, _id: user._id, role: user.role },
-      process.env.JWT_TOKEN,
-      { expiresIn: "1d" }
-    );
-
-    res.status(200).json({ status: SUCCESS, token });
-  } catch (error) {
-    res.status(500).json({ status: ERROR, message: error.message });
+  const enteredPass = compareSync(ppassword, user.password);
+  if(!enteredPass){
+    res.status(401).json({status: FAIL, data:{message: "Authentication Errors"}});
   }
-};
-
-// Update user (self only)
+  // generate jwt
+  const token = jwt.sign({_id: user._id, role: user.role}, process.env.JWT_TOKEN, {expiresIn: '1day'});
+  user.token = token
+  res.status(201).json({status: SUCCESS, data: { token }});
+}
+//update user
 const updateUser = async (req, res) => {
-  if (req.decodeToken._id !== req.params.id) {
-    return res.status(403).json({ status: ERROR, message: "Not allowed" });
-  }
-
+  if(req.decodeToken._id !== req.params._id){
+    return res.status(401).json({status:ERROR, data:{message: "Not allowed update"}});
+  };
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    ).select("-password");
-
-    if (!updatedUser) {
-      return res.status(404).json({ status: ERROR, message: "User not found" });
+    const userId = req.params.id
+    const updatedUser = await User.findByIdAndUpdate(userId, {$set: {...req.body}, new: true}).select('-password');
+    if(!updatedUser){
+      return res.status(404).json({status: ERROR, data:{message: "User Not Found"}});
     }
-
-    res.status(200).json({ status: SUCCESS, data: updatedUser });
+    res.status(201).json({status: SUCCESS, data:{updateUser}});
   } catch (error) {
-    res.status(500).json({ status: ERROR, message: error.message });
+    res.status(500).json({status: ERROR, data: {message: error}});
   }
-};
-
-// Delete user (only admin can)
-const deleteUser = async (req, res) => {
-  if (req.decodeToken._id === req.params.id) {
-    return res.status(403).json({ status: ERROR, message: "You can't delete yourself" });
+}
+// delete user
+const deleteUser = async(req, res) =>{
+  if(req.decodeToken._id !== req.params._id){
+    return res.status(401).json({status:ERROR, data:{message: "Not allowed update"}});
   }
-
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
-    if (!deletedUser) {
-      return res.status(404).json({ status: ERROR, message: "User not found" });
+    const userId = req.params.id
+    const deletedUser = await User.findByIdAndDelete(userId)
+    if(!deletedUser){
+      return res.status(404).json({status: ERROR, data:{message: "User Not Found"}});
     }
-
-    res.status(200).json({ status: SUCCESS, message: "User deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ status: ERROR, message: error.message });
+    res.status(201).json({status: SUCCESS, data: {message: "User deleted successfully"}})
+  } catch (err) {
+    res.status(500).json({status: ERROR, data:{message: err}});
   }
-};
-
-export {
+}
+export{
   getAllUsers,
   getUserById,
   registerUser,
   loginUser,
   updateUser,
-  deleteUser,
-};
+  deleteUser
+}
