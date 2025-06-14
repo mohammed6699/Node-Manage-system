@@ -6,11 +6,12 @@ const port = process.env.PORT;
 const URL = process.env.MONGO_CONNECTION;
 const app = express();
 // taskRoutes imports
-import taskRouter from "./rotes/taskRoutes.js";
-import getTaskBySearch from "./controllers/searchTask.js"
-import getFilterTask from './controllers/filterTask.js'
+import taskRouter from './src/routes/taskRoute.js';
+import getTaskBySearch from "./src/controllers/searchTask.js"
+import getFilterTask from './src/controllers/filterTask.js'
 // userRoutes imports
-import userRouter from "./rotes/userRotes.js";
+import userRouter from "./src/routes/userRoute.js";
+
 
 mongoose.connect(URL).then(() =>{
     console.log("Data Base Connected");

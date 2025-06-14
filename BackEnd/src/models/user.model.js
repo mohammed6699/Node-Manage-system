@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import mongoose from "mongoose";
 import { hashSync } from "bcryptjs";
-import UserRole from "../utils/UeerRole.js";
+import UserRole from "../utlits/UeerRole.js";
 
 const UserModel = new Schema(
   {
