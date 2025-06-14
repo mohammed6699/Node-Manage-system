@@ -1,6 +1,7 @@
 import { ERROR, SUCCESS } from "../utils/http-status.js";
 import TaskModel from "../models/taskModel.js";
 import User from "../models/userModels.js";
+import schedularReminder from "../utlits/reminder.scheduler.js";
 
 // Get all tasks ( pagination + filtering by user)
 const getAllTasks = async (req, res) => {
@@ -36,7 +37,7 @@ const addTask = async (req, res) => {
   }
 
   try {
-    const { Title, Description, Due_Date, category, periority } = req.body;
+    const { Title, Description, Due_Date, category, periority ,reminderTime } = req.body;
 
     const newTask = await TaskModel.create({
       Title,
@@ -44,9 +45,10 @@ const addTask = async (req, res) => {
       Due_Date,
       category,
       periority,
+      reminderTime,
       user: req.decodeToken._id,
     });
-
+    schedularReminder(newTask);
     await User.findByIdAndUpdate(
       req.decodeToken._id,
       { $push: { tasks: newTask._id } },
