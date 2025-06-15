@@ -6,7 +6,7 @@ import schedularReminder from "../utlits/reminder.scheduler.js";
 
 
 // Get all tasks ( pagination + filtering by user)
-const getAllTAsk = async (req, res) => {
+const getAllTasks = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -38,7 +38,7 @@ const addTask = async (req, res) => {
   }
 
   try {
-    const { Title, Description, Due_Date, category, priority ,reminderTime } = req.body;
+    const { Title, Description, Due_Date, category, priority ,progress,reminderTime } = req.body;
 
     const newTask = await TaskModel.create({
       Title,
@@ -101,4 +101,4 @@ const deleteTask = async (req, res) => {
   }
 };
 
-export { getAllTAsk, addTask, updateTask, deleteTask };
+export { getAllTasks, addTask, updateTask, deleteTask };
