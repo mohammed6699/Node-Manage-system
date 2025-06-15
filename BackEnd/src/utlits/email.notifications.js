@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-const sendReminderEmail =async (task)=>{
+const sendReminderEmail =async (task,useremail)=>{
 
     const transport = nodemailer.createTransport({
         service:"gmail",
@@ -12,7 +12,7 @@ const sendReminderEmail =async (task)=>{
 
     const mailOptions ={
     from: "mena.maherqw@gmail.com",
-    to: "menamosadef5@gmail.com",
+    to: useremail,
     subject: `Reminder: ${task.Title}`,
     html: `
        <div style="max-width: 600px; margin: auto; font-family: 'Segoe UI', sans-serif; background-color: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0;">
