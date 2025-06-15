@@ -1,6 +1,6 @@
 const VAPID_PUBLIC_KEY = "BEpug1UEM_IqUQL8B4WW_UH2MlkqT96Fv2QgSboW0XAqyaz8iNTzaCUHd57j_2XleNOY88x3qjiLh4fntUNbXKk"; // استبدلها بالمفتاح العام بتاعك
 
-const url="http://localhost:5000/"
+const url="https://node-manage-system-back.vercel.app/"
 // conver puplic key (base64 url safe) to unit8Array
 /*
   bas64 = BEpug1UEM_IqUQL8B4WW_UH2MlkqT96Fv2QgSboW0XAqyaz8iNTzaCUHd57j_2XleNOY88x3qjiLh4fntUNbXKk 
