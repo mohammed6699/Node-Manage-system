@@ -1,5 +1,6 @@
 const VAPID_PUBLIC_KEY = "BEpug1UEM_IqUQL8B4WW_UH2MlkqT96Fv2QgSboW0XAqyaz8iNTzaCUHd57j_2XleNOY88x3qjiLh4fntUNbXKk"; // استبدلها بالمفتاح العام بتاعك
 
+const url="http://localhost:5000/"
 // conver puplic key (base64 url safe) to unit8Array
 /*
   bas64 = BEpug1UEM_IqUQL8B4WW_UH2MlkqT96Fv2QgSboW0XAqyaz8iNTzaCUHd57j_2XleNOY88x3qjiLh4fntUNbXKk 
@@ -56,7 +57,7 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
 
       console.log("User is subscribed:", subscription);
 
-      await fetch("http://localhost:5000/api/save-subscription", {
+      await fetch(url+"api/save-subscription", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
