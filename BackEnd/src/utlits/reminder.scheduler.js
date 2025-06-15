@@ -10,9 +10,13 @@ const schedularReminder = async (task) => {
                 console.error("User not found for task:", task._id);
                 return;
             }
-                console.log("Scheduling reminder for task:", task.Title);
-        const reminderDate2 = new Date(task.reminderTime);
-        schedule.scheduleJob(task._id.toString(), reminderDate2, () => {
+        console.log("Scheduling reminder for task:", task.Title);
+        // Schedule the reminder using node-schedule
+
+        const utcDate = new Date(task.reminderTime);
+
+        const reminderTime = new Date(utcDate.getTime() - 3 * 60 * 60 * 1000);
+        schedule.scheduleJob(task._id.toString(), reminderTime, () => {
             console.log(`Reminder for task ${task._id}: ${task.Title} at ${task.reminderTime}`);
             sendReminderEmail(task,user.email);
             const subscription = getSubscription()
